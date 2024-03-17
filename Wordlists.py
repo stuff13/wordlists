@@ -1,27 +1,30 @@
 import time
 
-def count_words(file):
+FILENAME = "/usr/share/dict/words"
+LETTER = "s"
+
+
+def count_words(filename, letter):
     total_words = 0
-    words_with_e = 0
+    words_with_letter = 0
 
     try:
-        with open(file, 'r') as file:
-            start = time.time()
-            for line in file:
-                words = line.split()
-                total_words += len(words)
-                for word in words:
-                    if word.endswith("e"):
-                        words_with_e += 1
-                end = timer()
-                time = end - start
-            
+        with open(filename, 'r') as f:
+            words = f.read().splitlines()
     except FileNotFoundError:
         print("File not found.")
         return
 
-    print(f"Total number of words: {total_words}")
-    print(f"Number of words ending with 'e': {words_with_e}")
-    print(f"It took {time} seconds to find this out!")
+    start = time.time()
+    total_words = len(words)
+    for word in words:
+        if word.endswith(letter):
+            words_with_letter += 1
+    end = time.time()
+    duration = end - start
 
-count_words('Wordlist.txt')
+    print(f"Total number of words: {total_words}")
+    print(f"Number of words ending with '{letter}': {words_with_letter}")
+    print(f"It took {duration} seconds to find this out!")
+
+count_words(FILENAME, LETTER)
